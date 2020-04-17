@@ -42,10 +42,7 @@ module.exports = {
   /*
    ** Nuxt.js modules
    */
-  modules: [
-    // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios'
-  ],
+  modules: ['@nuxtjs/axios', '@nuxtjs/auth'],
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
@@ -58,9 +55,9 @@ module.exports = {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
-        dark: {
+        light: {
           primary: colors.blue.darken2,
           accent: colors.grey.darken3,
           secondary: colors.amber.darken3,
@@ -70,8 +67,35 @@ module.exports = {
           success: colors.green.accent3
         }
       }
+    },
+    defaultAssets: {
+      // TODO: dont load fron cdn
+      icons: 'fa'
     }
   },
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: 'http://localhost:6080/auth/login',
+            method: 'post',
+            propertyName: 'token'
+          },
+          logout: false,
+          user: {
+            url: 'http://localhost:6080/auth/me',
+            method: 'get',
+            propertyName: 'data'
+          }
+        }
+        // tokenRequired: true,
+        // tokenType: 'bearer'
+        // autoFetchUser: true
+      }
+    }
+  },
+
   /*
    ** Build configuration
    */
