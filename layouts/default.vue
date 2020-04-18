@@ -2,15 +2,15 @@
   <v-app dark>
     <v-content>
       <v-container>
-        <FloatBtns />
+        <float-btns />
         <v-row justify="space-between" align-content="space-between">
           <v-col>
-            <SearchFilter />
+            <search-filter />
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12" sm="4" md="3">
-            <TagList />
+            <tag-list />
           </v-col>
           <v-col cols="12" sm="8" md="9">
             <nuxt />
