@@ -9,9 +9,11 @@
       </v-card-title>
       <v-card-text>
         <v-row>
-          <v-alert v-model="error" type="error">
-            could not create tag
-          </v-alert>
+          <v-col cols="12">
+            <v-alert v-model="error" type="error">
+              could not create tag
+            </v-alert>
+          </v-col>
           <v-col cols="12" sm="6">
             <v-text-field v-model="tag.name" label="Name" />
           </v-col>
