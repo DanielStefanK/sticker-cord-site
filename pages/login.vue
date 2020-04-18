@@ -12,6 +12,9 @@
               label="Password"
               :type="type"
             />
+            <v-alert v-model="error" type="error">
+              Could not log you in
+            </v-alert>
           </v-card-text>
           <v-card-actions>
             <v-spacer />
@@ -32,6 +35,7 @@ export default {
   data() {
     return {
       type: 'password',
+      error: false,
       username: '',
       password: ''
     }
@@ -39,16 +43,21 @@ export default {
 
   methods: {
     async userLogin() {
-      try {
-        const response = await this.$auth.loginWith('local', {
-          data: {
-            username: this.username,
-            password: this.password
+      if (this.username && this.password) {
+        this.error = false
+        try {
+          const { data } = await this.$auth.loginWith('local', {
+            data: {
+              username: this.username,
+              password: this.password
+            }
+          })
+          if (!data.success) {
+            throw new Error('could not log you in')
           }
-        })
-        console.log(response)
-      } catch (err) {
-        console.log(err)
+        } catch (err) {
+          this.error = true
+        }
       }
     }
   }
