@@ -9,7 +9,7 @@
     </div>
 
     <div>
-      <tag v-for="t in sticker.tags" :key="t.id" small :tag="t" />
+      <tag v-for="t in sticker.tags" :key="t.id" class="ma-1" small :tag="t" />
     </div>
 
     <v-card-actions>

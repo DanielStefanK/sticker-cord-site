@@ -20,7 +20,7 @@ export const mutations = {
     state.stickers = stickers
   },
 
-  setSearchloading(state, loading) {
+  setSearchLoading(state, loading) {
     state.searchLoading = loading
   }
 }
@@ -28,7 +28,7 @@ export const mutations = {
 export const actions = {
   loadSticker({ state, commit }, force = false) {
     if (force || !state.stickers) {
-      commit('setSearchloading', false)
+      commit('setSearchLoading', true)
 
       return axios
         .post(`${process.env.SERVER_URL}sticker/load/all`, {
@@ -37,7 +37,7 @@ export const actions = {
         })
         .then((r) => {
           commit('setSticker', r.data.data)
-          commit('setSearchloading', false)
+          commit('setSearchLoading', false)
           return r.data.data
         })
     }

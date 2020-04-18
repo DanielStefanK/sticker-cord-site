@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import _debounce from 'lodash/debounce'
+import _throttle from 'lodash/throttle'
 
 export default {
   computed: {
@@ -19,9 +19,7 @@ export default {
       },
       set(newVal) {
         this.$store.commit('search/updateSearchTerm', newVal)
-        _debounce(() => {
-          this.$store.dispatch('search/loadSticker', true)
-        }, 400).bind(this)()
+        this.throttledSearch()
       }
     }
   },
@@ -38,6 +36,13 @@ export default {
     })
   },
 
-  methods: {}
+  methods: {
+    search() {
+      this.$store.dispatch('search/loadSticker', true)
+    },
+    throttledSearch: _throttle(function() {
+      this.$store.dispatch('search/loadSticker', true)
+    }, 1000)
+  }
 }
 </script>
