@@ -13,7 +13,7 @@ export const mutations = {
 export const actions = {
   getTags({ state, commit }) {
     if (!state.tags) {
-      return axios.get('http://localhost:6080/tag/load/all').then((r) => {
+      return axios.get(`${process.env.SERVER_URL}tag/load/all`).then((r) => {
         commit('setTags', r.data.data)
         return r.data.data
       })

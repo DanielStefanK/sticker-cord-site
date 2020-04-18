@@ -1,3 +1,4 @@
+require('dotenv').config()
 const colors = require('vuetify/es5/util/colors').default
 
 module.exports = {
@@ -37,7 +38,8 @@ module.exports = {
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
-    '@nuxtjs/vuetify'
+    '@nuxtjs/vuetify',
+    '@nuxtjs/dotenv'
   ],
   /*
    ** Nuxt.js modules
@@ -78,13 +80,13 @@ module.exports = {
       local: {
         endpoints: {
           login: {
-            url: 'http://localhost:6080/auth/login',
+            url: `${process.env.SERVER_URL}auth/login`,
             method: 'post',
             propertyName: 'token'
           },
           logout: false,
           user: {
-            url: 'http://localhost:6080/auth/me',
+            url: `${process.env.SERVER_URL}auth/me`,
             method: 'get',
             propertyName: 'data'
           }
