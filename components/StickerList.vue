@@ -1,37 +1,14 @@
 <template>
   <v-row>
-    <v-col v-if="isLoading">
+    <v-col v-if="isLoadingSearch">
       <v-progress-linear indeterminate />
     </v-col>
     <template v-else-if="stickers && stickers.length">
-      <v-col v-for="s in stickers" :key="s.id" align-self="center">
-        <v-card class="pa-1" width="150px">
-          <v-row justify="center">
-            <sticker-img :img-id="s.imageId" :alt="s.description" />
-          </v-row>
-
-          <div class="title text-center">
-            {{ s.stickerName }}
-          </div>
-
-          <div>
-            <tag v-for="t in s.tags" :key="t.id" small :tag="t" />
-          </div>
-
-          <v-card-actions>
-            <v-spacer />
-            <v-btn
-              small
-              fab
-              color="primary"
-              :href="downloadPath(s.imageId, s.stickerName)"
-            >
-              <v-icon small>
-                fa-file-download
-              </v-icon>
-            </v-btn>
-          </v-card-actions>
-        </v-card>
+      <v-col v-if="isLoading">
+        <v-progress-circular indeterminate />
+      </v-col>
+      <v-col v-for="s in stickers" :key="s.id" cols="12" sm="6" md="4" lg="3">
+        <sticker-card :sticker="s" />
       </v-col>
     </template>
     <v-col v-else>
@@ -43,13 +20,11 @@
 </template>
 
 <script>
-import StickerImg, { downloadPath } from './Image'
-import Tag from './Tag'
+import StickerCard from './StickerCard'
 
 export default {
   components: {
-    StickerImg,
-    Tag
+    StickerCard
   },
 
   async fetch() {
@@ -65,11 +40,11 @@ export default {
       return !!(
         this.$fetchState.pending || this.$store.state.search.loadingStickers
       )
-    }
-  },
+    },
 
-  methods: {
-    downloadPath
+    isLoadingSearch() {
+      return this.$store.state.search.searchLoading
+    }
   }
 }
 </script>

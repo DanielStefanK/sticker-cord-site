@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import _debounce from 'lodash/debounce'
+
 export default {
   computed: {
     searchTerm: {
@@ -17,6 +19,9 @@ export default {
       },
       set(newVal) {
         this.$store.commit('search/updateSearchTerm', newVal)
+        _debounce(() => {
+          this.$store.dispatch('search/loadSticker', true)
+        }, 400).bind(this)()
       }
     }
   },
@@ -31,6 +36,8 @@ export default {
         e.stopImmediatePropagation()
       }
     })
-  }
+  },
+
+  methods: {}
 }
 </script>

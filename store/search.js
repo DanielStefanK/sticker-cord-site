@@ -3,7 +3,8 @@ import axios from 'axios'
 export const state = () => ({
   searchTerm: '',
   tags: [],
-  stickers: null
+  stickers: null,
+  searchLoading: false
 })
 
 export const mutations = {
@@ -17,16 +18,26 @@ export const mutations = {
 
   setSticker(state, stickers) {
     state.stickers = stickers
+  },
+
+  setSearchloading(state, loading) {
+    state.searchLoading = loading
   }
 }
 
 export const actions = {
   loadSticker({ state, commit }, force = false) {
     if (force || !state.stickers) {
+      commit('setSearchloading', false)
+
       return axios
-        .get(`${process.env.SERVER_URL}sticker/load/all`)
+        .post(`${process.env.SERVER_URL}sticker/load/all`, {
+          term: state.searchTerm,
+          tags: state.tags
+        })
         .then((r) => {
           commit('setSticker', r.data.data)
+          commit('setSearchloading', false)
           return r.data.data
         })
     }

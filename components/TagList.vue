@@ -37,6 +37,12 @@ export default {
     availableTags() {
       return this.$store.state.cache.tags
     }
+  },
+
+  watch: {
+    selectedTags() {
+      this.$store.dispatch('search/loadSticker', true)
+    }
   }
 }
 </script>
