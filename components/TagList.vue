@@ -4,12 +4,7 @@
       <v-chip-group v-model="selectedTags" column multiple>
         <v-row no-gutters>
           <v-col v-for="tag in availableTags" :key="tag.id" cols="auto" sm="12">
-            <v-chip
-              :color="tag.color ? `#${tag.color}` : 'default'"
-              :value="tag.id"
-              filter
-              >{{ tag.name }}</v-chip
-            >
+            <tag :tag="tag" />
           </v-col>
         </v-row>
       </v-chip-group>
@@ -18,7 +13,13 @@
 </template>
 
 <script>
+import Tag from './Tag'
+
 export default {
+  components: {
+    Tag
+  },
+
   async fetch() {
     await this.$store.dispatch('cache/getTags')
   },
