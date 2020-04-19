@@ -25,7 +25,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer />
-        <v-btn :disabled="isLoading | isLoadingDelete" text @click="close"
+        <v-btn :disabled="isLoading || isLoadingDelete" text @click="close"
           >Cancel</v-btn
         >
         <v-btn
