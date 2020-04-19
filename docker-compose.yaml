@@ -12,8 +12,8 @@ services:
       - web
     labels:
       - traefik.enabled=true
-      - traefik.backend=ctv-post-creator
-      - traefik.frontend.rule=Host:api.ctv.daniel-stefan.dev
+      - traefik.backend=sticker-cord-site
+      - traefik.frontend.rule=Host:sticker.daniel-stefan.dev
       - traefik.docker.network=web
       - traefik.port=3000
 networks:
