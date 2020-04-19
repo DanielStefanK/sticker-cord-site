@@ -14,6 +14,13 @@
         </template>
       </create-sticker>
     </v-col>
+    <v-col>
+      <change-password>
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on">change password</v-btn>
+        </template>
+      </change-password>
+    </v-col>
     <v-col v-if="$auth.user.isAdmin">
       <create-user>
         <template v-slot:activator="{ on }">
@@ -21,12 +28,17 @@
         </template>
       </create-user>
     </v-col>
+    <v-col v-if="$auth.user.isAdmin" cols="12">
+      <user-list />
+    </v-col>
   </v-row>
 </template>
 <script>
 import AddTagDialog from '@/components/AddTagDialog'
 import CreateSticker from '@/components/CreateSticker'
 import CreateUser from '@/components/CreateUser'
+import UserList from '@/components/UserList'
+import ChangePassword from '@/components/ChangePassword'
 
 export default {
   middleware: 'auth',
@@ -34,7 +46,9 @@ export default {
   components: {
     AddTagDialog,
     CreateSticker,
-    CreateUser
+    CreateUser,
+    UserList,
+    ChangePassword
   }
 }
 </script>
