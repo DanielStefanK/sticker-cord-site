@@ -1,5 +1,5 @@
 <template>
-  <v-row dense class="floating">
+  <div class="floating">
     <v-col v-if="loggedIn">
       <v-tooltip top>
         <template v-slot:activator="{ on }">
@@ -30,7 +30,7 @@
         <span>Go to top</span>
       </v-tooltip>
     </v-col>
-  </v-row>
+  </div>
 </template>
 
 <style scoped>
