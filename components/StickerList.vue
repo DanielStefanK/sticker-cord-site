@@ -15,6 +15,7 @@
       <v-col v-for="s in stickers" :key="s.id" cols="12" sm="6" md="4" lg="3">
         <sticker-card :sticker="s" />
       </v-col>
+      <span v-intersect.quiet="loadMore" class="bottom">Load More</span>
     </template>
     <v-col v-else>
       <v-alert type="info">
@@ -23,6 +24,13 @@
     </v-col>
   </v-row>
 </template>
+
+<style scoped>
+.bottom {
+  bottom: 0;
+  visibility: hidden;
+}
+</style>
 
 <script>
 import StickerCard from './StickerCard'
@@ -49,6 +57,12 @@ export default {
 
     isLoadingSearch() {
       return this.$store.state.search.searchLoading
+    }
+  },
+
+  methods: {
+    loadMore() {
+      this.$store.dispatch('search/loadNextPage')
     }
   }
 }
