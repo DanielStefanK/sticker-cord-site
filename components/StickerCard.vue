@@ -21,19 +21,37 @@
           </span>
         </v-col>
         <v-col class="text-right">
-          <v-btn
-            small
-            fab
-            text
-            color="primary"
-            :href="
-              downloadPath(sticker.imageId, stickerName(sticker.stickerName))
-            "
-          >
-            <v-icon small>
-              fa-file-download
-            </v-icon>
-          </v-btn>
+          <create-sticker is-update :base-sticker="sticker">
+            <template v-slot:activator="{ on }">
+              <v-btn v-if="$auth.loggedIn" fab text small v-on="on">
+                <v-icon small>fa-edit</v-icon>
+              </v-btn>
+            </template>
+          </create-sticker>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                small
+                fab
+                text
+                color="primary"
+                :href="
+                  downloadPath(
+                    sticker.imageId,
+                    stickerName(sticker.stickerName)
+                  )
+                "
+                v-on="on"
+              >
+                <v-icon small>
+                  fa-file-download
+                </v-icon>
+              </v-btn>
+            </template>
+            <span>
+              Download
+            </span>
+          </v-tooltip>
         </v-col>
       </v-row>
     </v-card-actions>
@@ -56,10 +74,12 @@
 <script>
 import StickerImg, { downloadPath } from './Image'
 import Tag from './Tag'
+import CreateSticker from './CreateSticker'
 export default {
   components: {
     StickerImg,
-    Tag
+    Tag,
+    CreateSticker
   },
   props: {
     sticker: {

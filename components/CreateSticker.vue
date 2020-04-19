@@ -25,9 +25,25 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer />
-        <v-btn :disabled="isLoading" text @click="close">Cancel</v-btn>
-        <v-btn :loading="isLoading" color="primary" @click="submit">
-          Create
+        <v-btn :disabled="isLoading | isLoadingDelete" text @click="close"
+          >Cancel</v-btn
+        >
+        <v-btn
+          v-if="isUpdate"
+          color="error"
+          :loading="isLoadingDelete"
+          :disabled="isLoading"
+          @click="deleteSticker"
+        >
+          Delete
+        </v-btn>
+        <v-btn
+          :disabled="isLoadingDelete"
+          :loading="isLoading"
+          color="primary"
+          @click="submit"
+        >
+          {{ isUpdate ? 'Update' : 'Create' }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -39,6 +55,7 @@ import TagSelect from './TagSelect'
 import ImageUpload from './ImageUpload'
 
 export const defaultSticker = () => ({
+  id: null,
   name: '',
   tags: [],
   imageId: undefined,
@@ -50,26 +67,56 @@ export default {
     TagSelect,
     ImageUpload
   },
+  props: {
+    isUpdate: {
+      type: Boolean,
+      default: false
+    },
+    baseSticker: {
+      type: Object,
+      default: undefined
+    }
+  },
 
   data() {
     return {
       dialog: false,
       sticker: defaultSticker(),
       isLoading: false,
-      error: false
+      error: false,
+      isLoadingDelete: false
+    }
+  },
+
+  created() {
+    if (this.isUpdate && this.baseSticker) {
+      this.sticker = {
+        name: this.baseSticker.stickerName,
+        description: this.baseSticker.description,
+        tags: this.baseSticker.tags.map((t) => t.id),
+        imageId: this.baseSticker.imageId,
+        id: this.baseSticker.id
+      }
     }
   },
 
   methods: {
     close() {
       this.dialog = false
-      this.sticker = defaultSticker()
+      if (!this.isUpdate) {
+        this.sticker = defaultSticker()
+      }
     },
 
     submit() {
       this.isLoading = true
       this.$axios
-        .post(`${process.env.SERVER_URL}sticker/create/new`, this.sticker)
+        .post(
+          `${process.env.SERVER_URL}sticker/create/${
+            this.isUpdate ? 'update' : 'new'
+          }`,
+          this.sticker
+        )
         .then(({ data }) => {
           if (data.success) {
             this.$store.dispatch('search/loadSticker', true)
@@ -83,6 +130,26 @@ export default {
         })
         .finally(() => {
           this.isLoading = false
+        })
+    },
+
+    deleteSticker() {
+      this.isLoadingDelete = true
+      this.$axios
+        .post(`${process.env.SERVER_URL}sticker/create/delete`, this.sticker)
+        .then(({ data }) => {
+          if (data.success) {
+            this.$store.dispatch('search/loadSticker', true)
+            this.close()
+          } else {
+            throw new Error('could not delete')
+          }
+        })
+        .catch(() => {
+          this.error = true
+        })
+        .finally(() => {
+          this.isLoadingDelete = false
         })
     }
   }
