@@ -10,6 +10,8 @@ services:
     environment:
       SERVER_URL: https://api.sticker.daniel-stefan.dev/
       IMG_URL: http://localhost:6080/img/
+      BASE_URL: http://localhost:3000/
+      DISCORD_CLIENT_ID: 123
     networks:
       - web
     labels:
