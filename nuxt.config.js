@@ -87,6 +87,7 @@ module.exports = {
   auth: {
     strategies: {
       local: {
+        _scheme: 'local',
         endpoints: {
           login: {
             url: `${process.env.SERVER_URL}auth/login`,
@@ -98,6 +99,25 @@ module.exports = {
             url: `${process.env.SERVER_URL}auth/me`,
             method: 'get',
             propertyName: 'data'
+          }
+        }
+        // tokenRequired: true,
+        // tokenType: 'bearer'
+        // autoFetchUser: true
+      },
+      discord: {
+        _scheme: 'local',
+        endpoints: {
+          login: {
+            url: `${process.env.SERVER_URL}discord/auth/login`,
+            method: 'post',
+            propertyName: 'token'
+          },
+          logout: false,
+          user: {
+            url: `${process.env.SERVER_URL}discord/auth/me`,
+            method: 'get',
+            propertyName: 'user'
           }
         }
         // tokenRequired: true,

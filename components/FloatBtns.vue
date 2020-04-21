@@ -47,7 +47,7 @@
 export default {
   computed: {
     loggedIn() {
-      return this.$auth.loggedIn
+      return this.$auth.loggedIn && this.$store.state.auth.strategy === 'local'
     }
   },
 

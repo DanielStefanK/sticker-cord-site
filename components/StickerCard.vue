@@ -21,9 +21,31 @@
           </span>
         </v-col>
         <v-col class="text-right">
+          <AddToGuild v-if="loggedInDiscord" :sticker="sticker">
+            <template v-slot:activator="{ on: click }">
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on: hover }">
+                  <v-btn
+                    small
+                    fab
+                    text
+                    color="accent"
+                    v-on="{ ...click, ...hover }"
+                  >
+                    <v-icon small>
+                      fa-plus
+                    </v-icon>
+                  </v-btn>
+                </template>
+                <span>
+                  Add to my guild
+                </span>
+              </v-tooltip>
+            </template>
+          </AddToGuild>
           <create-sticker is-update :base-sticker="sticker">
             <template v-slot:activator="{ on }">
-              <v-btn v-if="$auth.loggedIn" fab text small v-on="on">
+              <v-btn v-if="loggedIn" fab text small v-on="on">
                 <v-icon small>fa-edit</v-icon>
               </v-btn>
             </template>
@@ -75,16 +97,32 @@
 import StickerImg, { downloadPath } from './Image'
 import Tag from './Tag'
 import CreateSticker from './CreateSticker'
+import AddToGuild from './AddToGuild'
+
 export default {
   components: {
     StickerImg,
     Tag,
-    CreateSticker
+    CreateSticker,
+    AddToGuild
   },
+
   props: {
     sticker: {
       type: Object,
       required: true
+    }
+  },
+
+  computed: {
+    loggedIn() {
+      return this.$auth.loggedIn && this.$store.state.auth.strategy === 'local'
+    },
+
+    loggedInDiscord() {
+      return (
+        this.$auth.loggedIn && this.$store.state.auth.strategy === 'discord'
+      )
     }
   },
 

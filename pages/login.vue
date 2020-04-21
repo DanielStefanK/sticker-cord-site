@@ -30,7 +30,7 @@
 
 <script>
 export default {
-  layout: 'login',
+  layout: 'empty',
   middleware: 'loggedOut',
   data() {
     return {

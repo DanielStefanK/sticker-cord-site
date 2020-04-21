@@ -3,9 +3,12 @@
     <v-content>
       <v-container>
         <float-btns />
-        <v-row justify="space-between" align-content="space-between">
-          <v-col>
+        <v-row align="start" dense>
+          <v-col order="2" order-sm="1" cols="12" sm="9">
             <search-filter />
+          </v-col>
+          <v-col class="text-center" order="1" order-sm="2" cols="12" sm="3">
+            <discord-info />
           </v-col>
         </v-row>
         <v-row>
@@ -25,12 +28,14 @@
 import SearchFilter from '@/components/SearchFilter'
 import TagList from '@/components/TagList'
 import FloatBtns from '@/components/FloatBtns'
+import DiscordInfo from '@/components/DiscordInfo'
 
 export default {
   components: {
     SearchFilter,
     TagList,
-    FloatBtns
+    FloatBtns,
+    DiscordInfo
   }
 }
 </script>

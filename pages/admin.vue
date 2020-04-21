@@ -41,7 +41,7 @@ import UserList from '@/components/UserList'
 import ChangePassword from '@/components/ChangePassword'
 
 export default {
-  middleware: 'auth',
+  middleware: 'isAdmin',
 
   components: {
     AddTagDialog,
