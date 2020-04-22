@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 export const state = () => ({
   tags: null
 })
@@ -13,10 +11,12 @@ export const mutations = {
 export const actions = {
   getTags({ state, commit }, force = false) {
     if (force || !state.tags) {
-      return axios.get(`${process.env.SERVER_URL}tag/load/all`).then((r) => {
-        commit('setTags', r.data.data)
-        return r.data.data
-      })
+      return this.$axios
+        .get(`${process.env.SERVER_URL}tag/load/all`)
+        .then((r) => {
+          commit('setTags', r.data.data)
+          return r.data.data
+        })
     }
   }
 }

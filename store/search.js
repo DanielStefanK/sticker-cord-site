@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 export const state = () => ({
   searchTerm: '',
   tags: [],
@@ -46,7 +44,7 @@ export const actions = {
       commit('setSearchLoading', true)
       commit('setPage', 1)
 
-      return axios
+      return this.$axios
         .post(`${process.env.SERVER_URL}sticker/load/all`, {
           term: state.searchTerm,
           tags: state.tags,
@@ -65,7 +63,7 @@ export const actions = {
   loadNextPage({ state, commit }) {
     if (!state.loadingMore && state.hasMore) {
       commit('setLoadingMore', true)
-      return axios
+      return this.$axios
         .post(`${process.env.SERVER_URL}sticker/load/all`, {
           term: state.searchTerm,
           tags: state.tags,
